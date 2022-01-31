@@ -1,6 +1,8 @@
-﻿#region Preparing Testing Graph
+﻿using GraphAlgorithms;
 
-using GraphAlgorithms;
+#region Preparing Testing Graph
+
+#region Prepare Graph
 
 var graph = new Dictionary<string, List<string>>
 {
@@ -14,9 +16,30 @@ var graph = new Dictionary<string, List<string>>
 
 #endregion
 
+#region Prepare Edges
+
+var edges = new List<List<string>>
+{
+    new() {"i", "j"},
+    new() {"k", "i"},
+    new() {"m", "k"},
+    new() {"k", "l"},
+    new() {"o", "n"}
+};
+
+#endregion
+
+#endregion
+
 #region Testing
 
 PrintCollection(GraphsOperations<string>.GetDepthFirstValues(graph, "a"));
+PrintCollection(GraphsOperations<string>.GetDepthFirstValuesRecursive(graph, "a"));
+PrintCollection(GraphsOperations<string>.GetBreadthFirstValues(graph, "a"));
+Console.WriteLine(GraphsOperations<string>.HasPathDepthFirstRecursive(graph, "a", "b"));
+Console.WriteLine(GraphsOperations<string>.HasPathBreadthFirst(graph, "a", "b"));
+Console.WriteLine(GraphsOperations<string>.UndirectedHasPath(edges, "i", "j"));
+Console.WriteLine(GraphsOperations<string>.UndirectedHasPath(edges, "i", "o"));
 
 #endregion
 
