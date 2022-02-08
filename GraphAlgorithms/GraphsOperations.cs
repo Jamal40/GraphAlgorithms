@@ -86,6 +86,57 @@ public class GraphsOperations<T>
 
     #endregion
 
+    #region Get Components Count
+    public static int GetComponentsCount(Dictionary<T, List<T>> graph)
+    {
+        int result = 0;
+        var visitedNodes = new HashSet<T>();
+        foreach (var node in graph.Keys)
+        {
+            if (visitedNodes.Contains(node))
+                continue;
+
+            ExploreGraph(node, graph, visitedNodes);
+            result++;
+        }
+        return result;
+    }
+
+    private static void ExploreGraph(T node, Dictionary<T, List<T>> graph, HashSet<T> visitedNodes)
+    {
+        if (visitedNodes.Contains(node))
+            return;
+        visitedNodes.Add(node);
+        graph[node].ForEach(entry => ExploreGraph(entry, graph, visitedNodes));
+    }
+    #endregion
+
+    #region Get Largest Compnent
+    public static int GetLargestComponent(Dictionary<T, List<T>> graph)
+    {
+        var visitedList = new HashSet<T>();
+        var graphsCounts = new List<int>();
+        foreach (var node in graph.Keys)
+        {
+            if (!visitedList.Contains(node))
+                graphsCounts.Add(CountGraph(graph, node, visitedList));
+        }
+        return graphsCounts.Max();
+    }
+
+    private static int CountGraph(Dictionary<T, List<T>> graph, T node, ISet<T> visitedList)
+    {
+        if (visitedList.Contains(node))
+            return 0;
+
+        visitedList.Add(node);
+        int count = 1;
+
+        graph[node].ForEach(entry => { count += CountGraph(graph, entry, visitedList); });
+        return count;
+    }
+    #endregion
+
     #endregion
 
     #region Undirected Graph
@@ -105,12 +156,131 @@ public class GraphsOperations<T>
             return true;
         if (visited.Contains(source))
             return false;
-        
+
         visited.Add(source);
-        
+
         return graph[source].Any(entry => UndirectedHasPathHelper(graph, entry, destination, visited));
     }
 
+    #endregion
+
+    #region Get Shortest Path
+
+    #region Reucursive (DepthFirst)
+
+    public static int GetShortestPathRecursive(List<List<T>> edges, T source, T target)
+    {
+        var graph = GetAdjacencyListFromEdges(edges);
+
+        int shortestPath = GetShortestPathFromGraphRecursive(graph, source, target);
+
+        return shortestPath;
+    }
+
+    private static int GetShortestPathFromGraphRecursive(
+        Dictionary<T, List<T>> graph,
+        T node,
+        T target,
+        HashSet<T> visitedList = null,
+        List<int> pathsLengths = null,
+        int currentCoount = 0)
+    {
+        visitedList ??= new();
+        pathsLengths ??= new();
+
+        if (visitedList.Contains(node))
+            return 0;
+
+        visitedList.Add(node);
+
+        if (node.Equals(target))
+        {
+            pathsLengths.Add(currentCoount);
+            currentCoount = 0;
+        }
+        currentCoount++;
+
+        graph[node].ForEach(entry =>
+        {
+            GetShortestPathFromGraphRecursive(graph, entry, target, visitedList, pathsLengths, currentCoount);
+        });
+
+        return pathsLengths.Any() ? pathsLengths.Min() : 0;
+    }
+
+    #endregion
+
+    #region Iterative (BreadthFirst)
+
+    public static int GetShortestPath(List<List<T>> edges, T source, T target)
+    {
+        var graph = GetAdjacencyListFromEdges(edges);
+        var visitedList = new HashSet<T>();
+
+        var queue = new Queue<(T node, int level)>();
+        queue.Enqueue((source, 0));
+
+        while (queue.Count > 0)
+        {
+            var current = queue.Dequeue();
+            if (visitedList.Contains(current.node))
+                continue;
+            visitedList.Add(current.node);
+
+            if (current.node.Equals(target))
+                return current.level;
+
+            graph[current.node].ForEach(node => queue.Enqueue((node, current.level + 1)));
+        }
+        return -1;
+    }
+
+    #endregion
+
+    #endregion
+
+    #region Count Islands
+    public static int GetIslandsCount(T[,] island, T landSymbol, T waterSymbol)
+    {
+        var visitedList = new HashSet<(int row, int col)>();
+        int counter = 0;
+        for (int i = 0; i < island.GetLength(0); i++)
+        {
+            for (int j = 0; j < island.GetLength(1); j++)
+            {
+                if (island[i, j].Equals(waterSymbol))
+                    continue;
+                if (visitedList.Contains((i, j)))
+                    continue;
+
+                ExploreLand(island, i, j, landSymbol, waterSymbol, visitedList);
+                counter++;
+            }
+        }
+        return counter;
+    }
+
+    private static void ExploreLand(T[,] island, int i, int j, T landSymbol, T waterSymbol, ISet<(int row, int col)> visitedList)
+    {
+        try
+        {
+            if (island[i, j].Equals(waterSymbol))
+                return;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return;
+        }
+
+        if (visitedList.Contains((i, j)))
+            return;
+        visitedList.Add((i, j));
+
+        ExploreLand(island, i + 1, j, landSymbol, waterSymbol, visitedList);
+        ExploreLand(island, i - 1, j, landSymbol, waterSymbol, visitedList);
+        ExploreLand(island, i, j + 1, landSymbol, waterSymbol, visitedList);
+        ExploreLand(island, i, j - 1, landSymbol, waterSymbol, visitedList);
+    }
     #endregion
 
     #region Helpers
@@ -137,7 +307,7 @@ public class GraphsOperations<T>
         }
         else
         {
-            resultDictionary[key] = new List<T> {value};
+            resultDictionary[key] = new List<T> { value };
         }
     }
 
