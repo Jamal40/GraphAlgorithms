@@ -42,7 +42,7 @@ var edges = new List<List<string>>
 
 #region Prepare Grid
 
-var island = new string[6, 5]
+var grid = new string[6, 5]
 {
     {"W", "L", "W", "W", "W"},
     {"W", "L", "W", "W", "W"},
@@ -71,7 +71,8 @@ Console.WriteLine(GraphsOperations<string>.GetLargestComponent(graph));
 Console.WriteLine(GraphsOperations<int>.GetLargestComponent(graph2));
 Console.WriteLine(GraphsOperations<string>.GetShortestPathRecursive(edges, "i", "l"));
 Console.WriteLine(GraphsOperations<string>.GetShortestPath(edges, "i", "l"));
-Console.WriteLine(GraphsOperations<string>.GetIslandsCount(island, "L", "W"));
+Console.WriteLine(GraphsOperations<string>.GetIslandsCount(grid, "L", "W"));
+Console.WriteLine(GraphsOperations<string>.GetMinimumIsland(grid, "L", "W"));
 
 #endregion
 

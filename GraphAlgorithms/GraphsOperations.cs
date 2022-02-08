@@ -240,31 +240,31 @@ public class GraphsOperations<T>
     #endregion
 
     #region Count Islands
-    public static int GetIslandsCount(T[,] island, T landSymbol, T waterSymbol)
+    public static int GetIslandsCount(T[,] grid, T landSymbol, T waterSymbol)
     {
         var visitedList = new HashSet<(int row, int col)>();
         int counter = 0;
-        for (int i = 0; i < island.GetLength(0); i++)
+        for (int i = 0; i < grid.GetLength(0); i++)
         {
-            for (int j = 0; j < island.GetLength(1); j++)
+            for (int j = 0; j < grid.GetLength(1); j++)
             {
-                if (island[i, j].Equals(waterSymbol))
+                if (grid[i, j].Equals(waterSymbol))
                     continue;
                 if (visitedList.Contains((i, j)))
                     continue;
 
-                ExploreLand(island, i, j, landSymbol, waterSymbol, visitedList);
+                ExploreGrid(grid, i, j, landSymbol, waterSymbol, visitedList);
                 counter++;
             }
         }
         return counter;
     }
 
-    private static void ExploreLand(T[,] island, int i, int j, T landSymbol, T waterSymbol, ISet<(int row, int col)> visitedList)
+    private static void ExploreGrid(T[,] grid, int i, int j, T landSymbol, T waterSymbol, ISet<(int row, int col)> visitedList)
     {
         try
         {
-            if (island[i, j].Equals(waterSymbol))
+            if (grid[i, j].Equals(waterSymbol))
                 return;
         }
         catch (IndexOutOfRangeException)
@@ -276,10 +276,58 @@ public class GraphsOperations<T>
             return;
         visitedList.Add((i, j));
 
-        ExploreLand(island, i + 1, j, landSymbol, waterSymbol, visitedList);
-        ExploreLand(island, i - 1, j, landSymbol, waterSymbol, visitedList);
-        ExploreLand(island, i, j + 1, landSymbol, waterSymbol, visitedList);
-        ExploreLand(island, i, j - 1, landSymbol, waterSymbol, visitedList);
+        ExploreGrid(grid, i + 1, j, landSymbol, waterSymbol, visitedList);
+        ExploreGrid(grid, i - 1, j, landSymbol, waterSymbol, visitedList);
+        ExploreGrid(grid, i, j + 1, landSymbol, waterSymbol, visitedList);
+        ExploreGrid(grid, i, j - 1, landSymbol, waterSymbol, visitedList);
+    }
+    #endregion
+
+    #region Minimum Island
+    public static int GetMinimumIsland(T[,] grid, T landSymbol, T waterSymbol)
+    {
+        var visitedList = new HashSet<(int row, int col)>();
+        var islandsSizes = new List<int>();
+
+        for (int i = 0; i < grid.GetLength(0); i++)
+        {
+            for (int j = 0; j < grid.GetLength(1); j++)
+            {
+                if (grid[i, j].Equals(waterSymbol))
+                    continue;
+                if (visitedList.Contains((i, j)))
+                    continue;
+                islandsSizes.Add(GetIslandSize(grid, i, j, landSymbol, waterSymbol, visitedList));
+            }
+        }
+        return islandsSizes.Min();
+    }
+
+    private static int GetIslandSize(T[,] grid, int i, int j, T landSymbol, T waterSymbol, HashSet<(int row, int col)> visitedList)
+    {
+        int count = 0;
+
+        try
+        {
+            if (grid[i, j].Equals(waterSymbol))
+                return count;
+        }
+        catch (IndexOutOfRangeException)
+        {
+            return count;
+        }
+
+        if (visitedList.Contains((i, j)))
+            return count;
+        visitedList.Add((i, j));
+
+        count++;
+        count += GetIslandSize(grid, i + 1, j, landSymbol, waterSymbol, visitedList);
+        count += GetIslandSize(grid, i - 1, j, landSymbol, waterSymbol, visitedList);
+        count += GetIslandSize(grid, i, j + 1, landSymbol, waterSymbol, visitedList);
+        count += GetIslandSize(grid, i, j - 1, landSymbol, waterSymbol, visitedList);
+
+        return count;
     }
     #endregion
 
