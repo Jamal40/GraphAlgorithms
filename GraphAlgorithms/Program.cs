@@ -25,6 +25,109 @@ var graph2 = new Dictionary<int, List<int>>
     {4, new List<int>{ 3, 2 } }
 };
 
+var graph3 = new int[][]
+{
+    new int [] { 1, 3 },
+    new int [] { 0, 2 },
+    new int [] { 1, 3 },
+    new int [] { 0, 2 }
+};
+
+var graph4 = new int[][]
+{
+    new int [] { 1, 2, 3 },
+    new int [] { 0, 2 },
+    new int [] { 0, 1, 3 },
+    new int [] { 0, 2 }
+};
+
+var graph5 = new int[][]
+{
+    new int [] {},
+    new int [] { 3 },
+    new int [] {},
+    new int [] { 1 },
+    new int [] {},
+};
+
+var graph6 = new int[][]
+{
+  new int [] {},
+  new int [] {2, 4, 6},
+  new int [] {1, 4, 8, 9},
+  new int [] {7, 8},
+  new int [] {1, 2, 8, 9},
+  new int [] {6, 9},
+  new int [] {1, 5, 7, 8, 9},
+  new int [] {3, 6, 9},
+  new int [] {2, 3, 4, 6, 9},
+  new int [] {2, 4, 5, 6, 7, 8}
+};
+
+var graph7 = new int[][]
+{
+  new int[] {4},
+  new int[] {},
+  new int[] {4},
+  new int[] {4},
+  new int[] {0, 2, 3}
+};
+
+var graph8 = new int[][]
+{
+  new int[] {2, 4},
+  new int[] {2, 3, 4},
+  new int[] {0, 1},
+  new int[] {1},
+  new int[] {0, 1},
+  new int[] {7},
+  new int[] {9},
+  new int[] {5},
+  new int[] {},
+  new int[] {6},
+  new int[] {12, 14},
+  new int[] {},
+  new int[] {10},
+  new int[] {},
+  new int[] {10},
+  new int[] {19},
+  new int[] {18},
+  new int[] {},
+  new int[] {16},
+  new int[] {15},
+  new int[] {23},
+  new int[] {23},
+  new int[] {},
+  new int[] {20, 21},
+  new int[] {},
+  new int[] {},
+  new int[] {27},
+  new int[] {26},
+  new int[] {},
+  new int[] {},
+  new int[] {34},
+  new int[] {33, 34},
+  new int[] {},
+  new int[] {31},
+  new int[] {30, 31},
+  new int[] {38, 39},
+  new int[] {37, 38, 39},
+  new int[] {36},
+  new int[] {35, 36},
+  new int[] {35, 36},
+  new int[] {43},
+  new int[] {},
+  new int[] {},
+  new int[] {40},
+  new int[] {},
+  new int[] {49},
+  new int[] {47, 48, 49},
+  new int[] {46, 48, 49},
+  new int[] {46, 47, 49},
+  new int[] {45, 46, 47, 48}
+};
+
+
 #endregion
 
 #region Prepare Edges
@@ -73,6 +176,12 @@ Console.WriteLine(GraphsOperations<string>.GetShortestPathRecursive(edges, "i", 
 Console.WriteLine(GraphsOperations<string>.GetShortestPath(edges, "i", "l"));
 Console.WriteLine(GraphsOperations<string>.GetIslandsCount(grid, "L", "W"));
 Console.WriteLine(GraphsOperations<string>.GetMinimumIsland(grid, "L", "W"));
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph3)); // Should be true
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph4)); // Should be false
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph5)); // Should be true
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph6)); // Should be false
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph7)); // Should be true
+Console.WriteLine(GraphsOperations<int>.IsBipartite(graph8)); // Should be false
 
 #endregion
 

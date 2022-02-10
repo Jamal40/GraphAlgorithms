@@ -331,6 +331,38 @@ public class GraphsOperations<T>
     }
     #endregion
 
+    #region Is Bipartite
+
+    public static bool IsBipartite(int[][] graph)
+    {
+        var visitedList = new Dictionary<int, bool>();
+        var results = new List<bool>();
+        for (int i = 0; i < graph.Length; i++)
+        {
+            if (!visitedList.ContainsKey(i))
+                results.Add(CheckBipartiteHelper(graph, i, visitedList));
+        }
+        return results.All(r => r);
+    }
+
+    private static bool CheckBipartiteHelper(int[][] graph, int element = 0, IDictionary<int, bool> visitedList = null, bool @switch = true)
+    {
+        if (visitedList.ContainsKey(element))
+            return visitedList[element] == @switch;
+
+        visitedList.Add(element, @switch);
+        List<bool> results = new();
+
+        for (int k = 0; k < graph[element].Length; k++)
+        {
+            results.Add(CheckBipartiteHelper(graph, graph[element][k], visitedList, !@switch));
+        }
+
+        return results.All(r => r);
+    }
+
+    #endregion
+
     #region Helpers
 
     private static Dictionary<T, List<T>> GetAdjacencyListFromEdges(List<List<T>> edges)
