@@ -155,6 +155,47 @@ var grid = new string[6, 5]
     {"L", "L", "W", "W", "W"},
 };
 
+var grid2 = new int[3][]
+{
+    new int [] {9, 9, 4},
+    new int [] {6, 6, 8},
+    new int [] {2, 1, 1},
+};
+
+var grid3 = new int[3][]
+{
+    new int [] {3, 4, 5},
+    new int [] {3, 2, 6},
+    new int [] {2, 2, 1},
+};
+
+var grid4 = new int[1][]
+{
+    new int [] {1},
+};
+
+var grid5 = new int[1][]
+{
+    new int [] {1,2},
+};
+
+var grid6 = new int[3][]
+{
+  new int [] {7, 8, 9},
+  new int [] {9, 7, 6},
+  new int [] {7, 2, 3}
+};
+
+var grid7 = new int[7][]
+{
+  new int [] {0, 1, 2, 3, 4, 5, 6},
+  new int [] {7, 8, 9, 10, 11, 12, 13},
+  new int [] {14, 15, 16, 17, 18, 19, 20},
+  new int [] {21, 22, 23, 24, 25, 26, 27},
+  new int [] {28, 29, 30, 31, 32, 33, 34},
+  new int [] {35, 36, 37, 38, 39, 40, 41},
+  new int [] {42, 43, 44, 45, 46, 47, 48}
+};
 #endregion
 
 #endregion
@@ -182,6 +223,12 @@ Console.WriteLine(GraphsOperations<int>.IsBipartite(graph5)); // Should be true
 Console.WriteLine(GraphsOperations<int>.IsBipartite(graph6)); // Should be false
 Console.WriteLine(GraphsOperations<int>.IsBipartite(graph7)); // Should be true
 Console.WriteLine(GraphsOperations<int>.IsBipartite(graph8)); // Should be false
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid4)); // Should be 1
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid5)); // Should be 2
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid6)); // Should be 6
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid2)); // Should be 4
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid3)); // Should be 4
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid7)); // Should be 4
 
 #endregion
 

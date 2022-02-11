@@ -332,6 +332,7 @@ public class GraphsOperations<T>
     #endregion
 
     #region Is Bipartite
+    //LeetCode
 
     public static bool IsBipartite(int[][] graph)
     {
@@ -359,6 +360,72 @@ public class GraphsOperations<T>
         }
 
         return results.All(r => r);
+    }
+
+    #endregion
+
+    #region Longest Increasing Path
+
+    public static int GetLongestIncreasingPath(int[][] grid)
+    {
+        var visited = new Dictionary<(int row, int column), int>();
+
+        for (int i = 0; i < grid.Length; i++)
+        {
+            for (int j = 0; j < grid[i].Length; j++)
+            {
+                var increasingPaths2 = new List<int>();
+
+                ExploreGridAndRegisterIncreasingPaths(grid,
+                    increasingPaths2, visited, i, j);
+                visited[(i, j)] = increasingPaths2.Max();
+            }
+        }
+
+        return visited.Values.Max() + 1;
+    }
+
+    private static void ExploreGridAndRegisterIncreasingPaths(
+        int[][] grid, List<int> increasingPaths,
+        Dictionary<(int row, int column), int> visited = null,
+        int i = 0, int j = 0, int? prevVal = null, int counter = 0)
+    {
+        visited ??= new Dictionary<(int row, int column), int>();
+
+
+        try
+        {
+
+
+            if (prevVal is not null)
+            {
+                if (prevVal < grid[i][j])
+                {
+                    counter++;
+                    if (visited.ContainsKey((i, j)))
+                    {
+                        increasingPaths.Add(counter + visited[(i, j)]);
+                        return;
+                    }
+                }
+                else
+                {
+                    increasingPaths.Add(counter);
+                    return;
+                }
+            }
+
+        }
+        catch (IndexOutOfRangeException)
+        {
+            increasingPaths.Add(counter);
+            return;
+        }
+
+        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i + 1, j, grid[i][j], counter);
+        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i - 1, j, grid[i][j], counter);
+        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i, j + 1, grid[i][j], counter);
+        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i, j - 1, grid[i][j], counter);
     }
 
     #endregion
