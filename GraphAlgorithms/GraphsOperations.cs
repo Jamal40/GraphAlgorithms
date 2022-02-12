@@ -2,7 +2,6 @@
 
 public class GraphsOperations<T>
 {
-    public static int c { get; set; } = 0;
     #region Directed Graph
 
     #region Get Depth First Values
@@ -381,16 +380,12 @@ public class GraphsOperations<T>
                 res = Math.Max(r, res);
             }
         }
-        Console.WriteLine(GraphsOperations<int>.c);
         return res + 1;
     }
 
     private static int ExploreGridAndRegisterIncreasingPaths(
         int[][] grid, int[,] visited = null, int i = 0, int j = 0)
     {
-        GraphsOperations<int>.c++;
-
-
         if (visited[i, j] > 0)
         {
             return visited[i, j];
