@@ -127,7 +127,6 @@ var graph8 = new int[][]
   new int[] {45, 46, 47, 48}
 };
 
-
 #endregion
 
 #region Prepare Edges
@@ -249,14 +248,8 @@ Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid2)); // Sho
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid3)); // Should be 4
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid7)); // Should be 4
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid8)); // Should be 4
-
-//Console.WriteLine(Solution.LongestIncreasingPath(grid4)); // Should be 1
-//Console.WriteLine(Solution.LongestIncreasingPath(grid5)); // Should be 2
-//Console.WriteLine(Solution.LongestIncreasingPath(grid6)); // Should be 6
-//Console.WriteLine(Solution.LongestIncreasingPath(grid2)); // Should be 4
-//Console.WriteLine(Solution.LongestIncreasingPath(grid3)); // Should be 4
-//Console.WriteLine(Solution.LongestIncreasingPath(grid7)); // Should be 4
-//Console.WriteLine(Solution.LongestIncreasingPath(grid8)); // Should be 4
+Console.WriteLine(GraphsOperations<string>.IsCyclic(graph)); // Should be False
+Console.WriteLine(GraphsOperations<int>.IsCyclic(graph2)); // Should be True
 
 #endregion
 

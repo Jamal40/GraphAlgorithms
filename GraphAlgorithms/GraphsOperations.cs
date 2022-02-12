@@ -137,6 +137,33 @@ public class GraphsOperations<T>
     }
     #endregion
 
+    #region Has Cycle
+    public static bool IsCyclic(IDictionary<T, List<T>> graph)
+    {
+        var results = new List<bool>();
+
+        foreach (var node in graph.Keys)
+        {
+            var visited = new HashSet<T>();
+            results.Add(ExploreGraphAndDetectCylces(graph, node, visited));
+        }
+
+        return results.Any(e => e);
+    }
+
+    private static bool ExploreGraphAndDetectCylces(IDictionary<T, List<T>> graph, T entry, ISet<T> visited = null)
+    {
+        if (visited.Contains(entry))
+            return true;
+
+        visited.Add(entry);
+
+        var results = graph[entry].Select(e => ExploreGraphAndDetectCylces(graph, e, visited));
+
+        return results.Any(e => e);
+    }
+    #endregion
+
     #endregion
 
     #region Undirected Graph
@@ -430,7 +457,6 @@ public class GraphsOperations<T>
 
         return resultDictionary;
     }
-
     private static void AddOrAppendEdge(Dictionary<T, List<T>> resultDictionary, T key, T value)
     {
         if (value is null)
