@@ -196,6 +196,25 @@ var grid7 = new int[7][]
   new int [] {35, 36, 37, 38, 39, 40, 41},
   new int [] {42, 43, 44, 45, 46, 47, 48}
 };
+
+var grid8 = new int[15][]
+{
+  new int [] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9},
+  new int [] {19, 18, 17, 16, 15, 14, 13, 12, 11, 10},
+  new int [] {20, 21, 22, 23, 24, 25, 26, 27, 28, 29},
+  new int [] {39, 38, 37, 36, 35, 34, 33, 32, 31, 30},
+  new int [] {40, 41, 42, 43, 44, 45, 46, 47, 48, 49},
+  new int [] {59, 58, 57, 56, 55, 54, 53, 52, 51, 50},
+  new int [] {60, 61, 62, 63, 64, 65, 66, 67, 68, 69},
+  new int [] {79, 78, 77, 76, 75, 74, 73, 72, 71, 70},
+  new int [] {80, 81, 82, 83, 84, 85, 86, 87, 88, 89},
+  new int [] {99, 98, 97, 96, 95, 94, 93, 92, 91, 90},
+  new int [] {100, 101, 102, 103, 104, 105, 106, 107, 108, 109},
+  new int [] {119, 118, 117, 116, 115, 114, 113, 112, 111, 110},
+  new int [] {120, 121, 122, 123, 124, 125, 126, 127, 128, 129},
+  new int [] {139, 138, 137, 136, 135, 134, 133, 132, 131, 130},
+  new int [] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+};
 #endregion
 
 #endregion
@@ -229,6 +248,15 @@ Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid6)); // Sho
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid2)); // Should be 4
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid3)); // Should be 4
 Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid7)); // Should be 4
+Console.WriteLine(GraphsOperations<int>.GetLongestIncreasingPath(grid8)); // Should be 4
+
+//Console.WriteLine(Solution.LongestIncreasingPath(grid4)); // Should be 1
+//Console.WriteLine(Solution.LongestIncreasingPath(grid5)); // Should be 2
+//Console.WriteLine(Solution.LongestIncreasingPath(grid6)); // Should be 6
+//Console.WriteLine(Solution.LongestIncreasingPath(grid2)); // Should be 4
+//Console.WriteLine(Solution.LongestIncreasingPath(grid3)); // Should be 4
+//Console.WriteLine(Solution.LongestIncreasingPath(grid7)); // Should be 4
+//Console.WriteLine(Solution.LongestIncreasingPath(grid8)); // Should be 4
 
 #endregion
 

@@ -2,6 +2,7 @@
 
 public class GraphsOperations<T>
 {
+    public static int c { get; set; } = 0;
     #region Directed Graph
 
     #region Get Depth First Values
@@ -366,66 +367,69 @@ public class GraphsOperations<T>
 
     #region Longest Increasing Path
 
-    public static int GetLongestIncreasingPath(int[][] grid)
+    public static int GetLongestIncreasingPathEff(int[][] grid)
     {
-        var visited = new Dictionary<(int row, int column), int>();
+        var visited = new int[grid.Length, grid[0].Length];
+        int res = 0;
 
         for (int i = 0; i < grid.Length; i++)
         {
             for (int j = 0; j < grid[i].Length; j++)
             {
-                var increasingPaths2 = new List<int>();
+                var r = ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j);
 
-                ExploreGridAndRegisterIncreasingPaths(grid,
-                    increasingPaths2, visited, i, j);
-                visited[(i, j)] = increasingPaths2.Max();
+                res = Math.Max(r, res);
             }
         }
-
-        return visited.Values.Max() + 1;
+        Console.WriteLine(GraphsOperations<int>.c);
+        return res + 1;
     }
 
-    private static void ExploreGridAndRegisterIncreasingPaths(
-        int[][] grid, List<int> increasingPaths,
-        Dictionary<(int row, int column), int> visited = null,
-        int i = 0, int j = 0, int? prevVal = null, int counter = 0)
+    private static int ExploreGridAndRegisterIncreasingPathsEff(
+        int[][] grid, int[,] visited = null, int i = 0, int j = 0)
     {
-        visited ??= new Dictionary<(int row, int column), int>();
+        GraphsOperations<int>.c++;
 
+
+        if (visited[i, j] > 0)
+        {
+            return visited[i, j];
+        }
+
+
+        var t1 = 0;
+        var t2 = 0;
+        var t3 = 0;
+        var t4 = 0;
 
         try
         {
-
-
-            if (prevVal is not null)
-            {
-                if (prevVal < grid[i][j])
-                {
-                    counter++;
-                    if (visited.ContainsKey((i, j)))
-                    {
-                        increasingPaths.Add(counter + visited[(i, j)]);
-                        return;
-                    }
-                }
-                else
-                {
-                    increasingPaths.Add(counter);
-                    return;
-                }
-            }
-
+            if (grid[i][j] < grid[i + 1][j])
+                t1 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i + 1, j);
         }
-        catch (IndexOutOfRangeException)
+        catch { }
+
+        try
         {
-            increasingPaths.Add(counter);
-            return;
+            if (grid[i][j] < grid[i - 1][j])
+                t2 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i - 1, j);
         }
+        catch { }
+        try
+        {
+            if (grid[i][j] < grid[i][j + 1])
+                t3 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j + 1);
+        }
+        catch { }
+        try
+        {
+            if (grid[i][j] < grid[i][j - 1])
+                t4 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j - 1);
+        }
+        catch { }
 
-        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i + 1, j, grid[i][j], counter);
-        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i - 1, j, grid[i][j], counter);
-        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i, j + 1, grid[i][j], counter);
-        ExploreGridAndRegisterIncreasingPaths(grid, increasingPaths, visited, i, j - 1, grid[i][j], counter);
+        visited[i, j] = Math.Max(Math.Max(t1, t2), Math.Max(t3, t4));
+        return visited[i, j];
     }
 
     #endregion
