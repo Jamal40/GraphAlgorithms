@@ -367,7 +367,7 @@ public class GraphsOperations<T>
 
     #region Longest Increasing Path
 
-    public static int GetLongestIncreasingPathEff(int[][] grid)
+    public static int GetLongestIncreasingPath(int[][] grid)
     {
         var visited = new int[grid.Length, grid[0].Length];
         int res = 0;
@@ -376,7 +376,7 @@ public class GraphsOperations<T>
         {
             for (int j = 0; j < grid[i].Length; j++)
             {
-                var r = ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j);
+                var r = ExploreGridAndRegisterIncreasingPaths(grid, visited, i, j);
 
                 res = Math.Max(r, res);
             }
@@ -385,7 +385,7 @@ public class GraphsOperations<T>
         return res + 1;
     }
 
-    private static int ExploreGridAndRegisterIncreasingPathsEff(
+    private static int ExploreGridAndRegisterIncreasingPaths(
         int[][] grid, int[,] visited = null, int i = 0, int j = 0)
     {
         GraphsOperations<int>.c++;
@@ -402,31 +402,19 @@ public class GraphsOperations<T>
         var t3 = 0;
         var t4 = 0;
 
-        try
-        {
-            if (grid[i][j] < grid[i + 1][j])
-                t1 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i + 1, j);
-        }
-        catch { }
 
-        try
-        {
-            if (grid[i][j] < grid[i - 1][j])
-                t2 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i - 1, j);
-        }
-        catch { }
-        try
-        {
-            if (grid[i][j] < grid[i][j + 1])
-                t3 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j + 1);
-        }
-        catch { }
-        try
-        {
-            if (grid[i][j] < grid[i][j - 1])
-                t4 = 1 + ExploreGridAndRegisterIncreasingPathsEff(grid, visited, i, j - 1);
-        }
-        catch { }
+        if (i + 1 < grid.Length && grid[i][j] < grid[i + 1][j])
+            t1 = 1 + ExploreGridAndRegisterIncreasingPaths(grid, visited, i + 1, j);
+
+        if (i - 1 >= 0 && grid[i][j] < grid[i - 1][j])
+            t2 = 1 + ExploreGridAndRegisterIncreasingPaths(grid, visited, i - 1, j);
+
+        if (j + 1 < grid[i].Length && grid[i][j] < grid[i][j + 1])
+            t3 = 1 + ExploreGridAndRegisterIncreasingPaths(grid, visited, i, j + 1);
+
+        if (j - 1 >= 0 && grid[i][j] < grid[i][j - 1])
+            t4 = 1 + ExploreGridAndRegisterIncreasingPaths(grid, visited, i, j - 1);
+
 
         visited[i, j] = Math.Max(Math.Max(t1, t2), Math.Max(t3, t4));
         return visited[i, j];
